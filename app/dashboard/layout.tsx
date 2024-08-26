@@ -3,7 +3,18 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import logo from "@/public/logo.svg";
 import DasboardItems from "@/components/dashboard/dashboard-items";
-import { DollarSign, Globe, Home } from "lucide-react";
+import { CircleUser, DollarSign, Globe, Home } from "lucide-react";
+import { Themetoggle } from "@/components/theme-toggle/theme-toggle";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+} from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 export const navLinks = [
   {
@@ -32,7 +43,7 @@ const layout = ({ children }: { children: ReactNode }) => {
             <Link href="/" className="flex items-center gap-2 font-semibold">
               <Image src={logo} alt="Logo" className="size-8" />
               <h3 className="text-2xl">
-                <span className="text-primary">Alex</span>Blog
+                Alex<span className="text-primary">Blog</span>
               </h3>
             </Link>
           </div>
@@ -46,8 +57,30 @@ const layout = ({ children }: { children: ReactNode }) => {
 
       <div className="flex flex-col">
         <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
-          <div className="ml-auto flex items-center gap-x-5"></div>
+          <div className="ml-auto flex items-center gap-x-5">
+            <Themetoggle />
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  className="rounded-full"
+                >
+                  <CircleUser className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <LogoutLink>Log out</LogoutLink>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </header>
+        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+          {children}
+        </main>
       </div>
     </section>
   );
